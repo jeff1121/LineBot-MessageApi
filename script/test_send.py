@@ -2,7 +2,7 @@ import requests
 import json
 import time
 
-URL = "http://localhost:8000/webhook"
+URL = "http://localhost:3000/webhook"
 HEADERS = {
     "Content-Type": "application/json",
     "x-line-signature": "dummy-signature"

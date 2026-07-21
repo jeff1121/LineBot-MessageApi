@@ -18,4 +18,4 @@ LINE_CHANNEL_ACCESS_TOKEN = os.getenv("LINE_CHANNEL_ACCESS_TOKEN", "")
 ENABLE_SIGNATURE_CHECK = os.getenv("ENABLE_SIGNATURE_CHECK", "false").lower() in ("true", "1", "yes")
 
 HOST = os.getenv("HOST", "0.0.0.0")
-PORT = int(os.getenv("PORT", 8000))
+PORT = int(os.getenv("PORT", 3000))

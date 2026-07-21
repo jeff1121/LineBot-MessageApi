@@ -8,4 +8,4 @@ fi
 
 echo "啟動伺服器..."
 export PYTHONPATH=src:$PYTHONPATH
-.venv/bin/uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+.venv/bin/uvicorn src.main:app --host 0.0.0.0 --port 3000 --reload

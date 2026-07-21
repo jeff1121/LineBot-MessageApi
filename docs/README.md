@@ -36,7 +36,7 @@ cp .env.example .env
 ```bash
 bash ./script/run.sh
 ```
-預設伺服器將在 `http://localhost:8000` 運行，並準備接收 Webhook 事件。
+預設伺服器將在 `http://localhost:3000` 運行，並準備接收 Webhook 事件。
 
 ## 測試指引
 
