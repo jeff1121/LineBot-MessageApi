@@ -16,10 +16,11 @@ from formatter import print_webhook_events
 
 app = FastAPI(title="LINE Webhook 測試工具")
 
+@app.post("/webhook")
 @app.post("/callback")
-async def callback(request: Request):
+async def webhook_endpoint(request: Request):
     """
-    接收來自 LINE Message API 的 Webhook POST 請求，
+    接收來自 LINE Message API 的 Webhook POST 請求 (支援 /webhook 與 /callback)，
     將 Payload 剖析為 Dataclasses 物件並於控制台以 Rich 表格列印。
     """
     try:

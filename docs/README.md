@@ -42,7 +42,7 @@ python ./script/test_send.py
 
 本工具提供一個主要的端點來接收 LINE 伺服器的請求。
 
-- **Endpoint**: `POST /callback`
+- **Endpoint**: `POST /webhook` (同時相容 `POST /callback`)
 - **Headers**: 需包含 `x-line-signature` 用於驗證 (在測試工具中預設為寬鬆模式或可配置)。
 - **Payload 接收格式範例**:
 
