@@ -7,24 +7,33 @@ if str(src_dir) not in sys.path:
     sys.path.insert(0, str(src_dir))
 
 import asyncio
+import json
 import time
 import psutil
 import uvicorn
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException, Header, Response
 from parser import parse_webhook_payload
 from formatter import print_webhook_events
+from security import verify_signature
+import config
 
 app = FastAPI(title="LINE Webhook 測試工具")
 
 @app.post("/webhook")
 @app.post("/callback")
-async def webhook_endpoint(request: Request):
+async def webhook_endpoint(request: Request, x_line_signature: str = Header(None)):
     """
     接收來自 LINE Message API 的 Webhook POST 請求 (支援 /webhook 與 /callback)，
     將 Payload 剖析為 Dataclasses 物件並於控制台以 Rich 表格列印。
     """
+    body_bytes = await request.body()
+    
+    # 若啟動簽章驗證則比對 X-Line-Signature
+    if config.ENABLE_SIGNATURE_CHECK and not verify_signature(body_bytes, x_line_signature or ""):
+        raise HTTPException(status_code=400, detail="Invalid X-Line-Signature")
+
     try:
-        body = await request.json()
+        body = json.loads(body_bytes.decode("utf-8")) if body_bytes else {}
     except Exception:
         body = {}
         
@@ -78,6 +87,12 @@ async def health_check():
 
     return {
         "status": "healthy",
+        "line_config": {
+            "channel_id_configured": bool(config.LINE_CHANNEL_ID),
+            "channel_secret_configured": bool(config.LINE_CHANNEL_SECRET),
+            "access_token_configured": bool(config.LINE_CHANNEL_ACCESS_TOKEN),
+            "signature_check_enabled": config.ENABLE_SIGNATURE_CHECK
+        },
         "cpu": {
             "used_percent": cpu_percent_str,
             "core_count": psutil.cpu_count(logical=True)

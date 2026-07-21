@@ -21,7 +21,17 @@
 bash ./script/setup.sh
 ```
 
-### 2. 啟動 Webhook Console 伺服器
+### 2. 設定環境變數 (.env)
+複製 `.env.example` 並依需求填入 LINE Channel 設定：
+```bash
+cp .env.example .env
+```
+* **`LINE_CHANNEL_ID`**：（選填） Channel Identifier。
+* **`LINE_CHANNEL_SECRET`**：（選填） 用於 `X-Line-Signature` HMAC-SHA256 簽章驗證。
+* **`LINE_CHANNEL_ACCESS_TOKEN`**：（選填） 用於 Messaging API 互動與自動回覆訊息。
+* **`ENABLE_SIGNATURE_CHECK`**：（選填，`true`/`false`） 開啟或關閉簽章驗證。若本機測試模擬 Payload 可保持 `false`。
+
+### 3. 啟動 Webhook Console 伺服器
 執行 `run.sh` 腳本啟動 FastAPI 伺服器：
 ```bash
 bash ./script/run.sh
